@@ -63,6 +63,7 @@ body.dark-mode {
     font-weight: 800;
     color: var(--black);
 }
+
 .fa-regular, .far {
     color: var(--black);
 }
