@@ -113,7 +113,7 @@ const searchByNameAndRegion = async (query, selectedRegion) => {
     }
 };
 
-
+// Modify renderCountries function to make country cards clickable
 const renderCountries = (countries) => {
     const countriesContainer = document.getElementById('countriesContainer');
     countriesContainer.innerHTML = '';
@@ -128,12 +128,13 @@ const renderCountries = (countries) => {
             const UrlFlag = flags.svg;
 
             const card = document.createElement('div');
-            card.classList.add('col-lg-3');
+            card.classList.add('col-lg-3', 'country-card'); // Add 'country-card' class
+            card.dataset.countryName = name.common; // Set data attribute for country name
             card.innerHTML = `
                 <div class="card">
-                    <img src="${UrlFlag}" class="card-img-top" style="height: 50%; object-fit: cover;" alt="...">
+                    <img src="${UrlFlag}" class="card-img-top" style="height: 50%; object-fit: cover; alt="..." type="button">
                     <div class="card-body">
-                        <h2 class="card-title text-truncate">${name.common}</h2>
+                        <h2 class="card-title text-truncate" type="button">${name.common}</h2>
                         <p class="card-text text-truncate"><span class="bold">Population:</span> ${population}</p>
                         <p class="card-text text-truncate"><span class="bold">Region:</span> ${region}</p>
                         <p class="card-text text-truncate"><span class="bold">Capital:</span> ${capital}</p>
@@ -142,8 +143,27 @@ const renderCountries = (countries) => {
             `;
             countriesContainer.appendChild(card);
         });
+
+        // Add click event listeners to the country cards
+        addCountryCardClickListeners();
     }
 };
+
+function handleCountryCardClick(countryName) {
+    // Redirect to country.html with the country name as a query parameter
+    window.location.href = `country.html?country=${encodeURIComponent(countryName)}`;
+}
+
+// Event listener for country card clicks
+function addCountryCardClickListeners() {
+    const countryCards = document.querySelectorAll('.country-card');
+    countryCards.forEach((card) => {
+        card.addEventListener('click', function () {
+            const countryName = this.dataset.countryName;
+            handleCountryCardClick(countryName);
+        });
+    });
+}
 
 
 //Event listener for search input
